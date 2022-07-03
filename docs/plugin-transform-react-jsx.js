@@ -1,5 +1,5 @@
 const types = require('@babel/types');
-
+const runtime = require('react/jsx-runtime');
 const pluginSyntaxJsx = require('@babel/plugin-syntax-jsx').default;
 
 const pluginTransformReactJsx = {
@@ -53,17 +53,31 @@ function buildChildren(node) {
 function buildChildrenProperty(children) {
   let childrenNode;
   if (children.length === 1) {
-    (childrenNode = children[0]);
+    childrenNode = children[0];
   } else if (children.length > 1) {
-     (childrenNode = types.arrayExpression(children));
+    childrenNode = types.arrayExpression(children);
   }
-  return types.objectProperty(types.identifier('children'),childrenNode);
-
+  return types.objectProperty(types.identifier('children'), childrenNode);
 }
 
 function call(path, name, args) {
-  const callee = types.identifier('_jsx');
+  const importSource = 'react/jsx-runtime';
+  const callee = addImport(path, name, importSource);
   return types.callExpression(callee, args);
+}
+
+function addImport(path,importName,importSource) {
+    const programPath = path.find(p =>p.isProgram());
+    //获取作用哉
+    const programScope = programPath.scope;
+    const localName = programScope.generateUidIdentifier(importName);
+
+    const importSpecifier = types.importSpecifier(localName,types.identifier(importName));
+    const specifiers = [importSpecifier];
+    const importDeclaration = types.importDeclaration(specifiers,types.stringLiteral(importSource));
+    programPath.unshiftContainer('body',[importDeclaration]);
+    return localName;
+    
 }
 
 module.exports = pluginTransformReactJsx;
