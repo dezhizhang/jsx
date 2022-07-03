@@ -1,0 +1,25 @@
+{
+  "name": "jsx",
+  "version": "1.0.0",
+  "description": "jsx",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dezhizhang/jsx.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dezhizhang/jsx/issues"
+  },
+  "homepage": "https://github.com/dezhizhang/jsx#readme",
+  "dependencies": {
+    "@babel/core": "^7.18.6",
+    "@babel/plugin-transform-react-jsx": "^7.18.6",
+    "@babel/types": "^7.18.7"
+  }
+}
